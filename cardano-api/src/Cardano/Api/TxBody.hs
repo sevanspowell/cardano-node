@@ -1489,7 +1489,7 @@ instance Show (TxBody era) where
     showsPrec p (ShelleyTxBody ShelleyBasedEraAlonzo
                                txbody txscripts redeemers txmetadata scriptValidity) =
       showParen (p >= 11)
-        ( showString "ShelleyTxBody ShelleyBasedEraMary "
+        ( showString "ShelleyTxBody ShelleyBasedEraAlonzo "
         . showsPrec 11 txbody
         . showChar ' '
         . showsPrec 11 txscripts
