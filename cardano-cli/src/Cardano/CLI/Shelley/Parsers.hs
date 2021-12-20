@@ -890,6 +890,8 @@ pQueryCmd =
         (Opt.info pQueryStakeSnapshot $ Opt.progDesc "Obtain the three stake snapshots for a pool, plus the total active stake (advanced command)")
     , subParser "pool-params"
         (Opt.info pQueryPoolParams $ Opt.progDesc "Dump the pool parameters (Ledger.NewEpochState.esLState._delegationState._pState._pParams -- advanced command)")
+    , subParser "kes-period-info"
+        (Opt.info pKesPeriodInfo $ Opt.progDesc "Get information about the current KES period and your node's operational certificate.")
     ]
   where
     pQueryProtocolParameters :: Parser QueryCmd
@@ -959,6 +961,13 @@ pQueryCmd =
       <*> pNetworkId
       <*> pStakePoolVerificationKeyHash
 
+    pKesPeriodInfo :: Parser QueryCmd
+    pKesPeriodInfo = QueryKesPeriodInfo
+      <$> pConsensusModeParams
+      <*> pNetworkId
+      <*> pOperationalCertificateFile
+      <*> pOperatorCertIssueCounterFile
+      <*> pMaybeOutputFile
 
 pGovernanceCmd :: Parser GovernanceCmd
 pGovernanceCmd =
@@ -1548,6 +1557,14 @@ pOperatorCertIssueCounterFile =
         )
     )
 
+pOperationalCertificateFile :: Parser FilePath
+pOperationalCertificateFile =
+  Opt.strOption
+    (  Opt.long "op-cert-file"
+    <> Opt.metavar "FILE"
+    <> Opt.help "Filepath of the node's operational certificate."
+    <> Opt.completer (Opt.bashCompleter "file")
+    )
 
 pOutputFormat :: Parser OutputFormat
 pOutputFormat =
