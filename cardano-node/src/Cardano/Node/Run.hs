@@ -63,8 +63,8 @@ import           Cardano.Node.Queries (HasKESInfo (..), HasKESMetricsData (..))
 import           Cardano.Node.NodeAddress
 import           Cardano.Node.Startup
 import           Cardano.Node.Types
-import           Cardano.TraceDispatcher.API
-import           Cardano.TraceDispatcher.Tracers.Startup (getStartupInfo)
+import           Cardano.Node.Tracing.API
+import           Cardano.Node.Tracing.Tracers.Startup (getStartupInfo)
 import           Cardano.Tracing.Config (TraceOptions (..), TraceSelection (..))
 
 import qualified Ouroboros.Consensus.Config as Consensus
