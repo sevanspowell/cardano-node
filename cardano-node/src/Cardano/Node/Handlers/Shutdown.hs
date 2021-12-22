@@ -42,8 +42,6 @@ import           Ouroboros.Consensus.Util.ResourceRegistry (ResourceRegistry)
 import           Ouroboros.Consensus.Util.STM (Watcher (..), forkLinkedWatcher)
 import           Ouroboros.Network.Block (MaxSlotNo (..), SlotNo, pointSlot)
 
-import           Cardano.Node.Configuration.POM (NodeConfiguration (..))
-
 
 data ShutdownTrace
   = ShutdownRequested -- "received shutdown request"
