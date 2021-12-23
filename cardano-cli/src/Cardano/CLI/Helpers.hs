@@ -12,6 +12,7 @@ module Cardano.CLI.Helpers
   , textShow
   , validateCBOR
   , hushM
+  , fmapL
   ) where
 
 import           Cardano.Prelude
@@ -126,3 +127,6 @@ hushM :: forall e m a. Monad m => Either e a -> (e -> m ()) -> m (Maybe a)
 hushM r f = case r of
   Right a -> return (Just a)
   Left e -> f e >> return Nothing
+
+fmapL :: (a -> b) -> Either a c -> Either b c
+fmapL f = either (Left . f) Right

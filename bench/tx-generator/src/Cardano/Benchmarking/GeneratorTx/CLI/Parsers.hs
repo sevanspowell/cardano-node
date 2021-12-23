@@ -120,8 +120,8 @@ parseTxId :: Atto.Parser TxId
 parseTxId = do
   bstr <- Atto.takeWhile1 Char.isHexDigit
   case deserialiseFromRawBytesHex AsTxId bstr of
-    Just addr -> return addr
-    Nothing -> fail $ "Incorrect transaction id format:: " ++ show bstr
+    Right addr -> return addr
+    Left msg -> fail $ "Incorrect transaction id format: " ++ msg
 
 parseTxIx :: Atto.Parser TxIx
 parseTxIx = toEnum <$> Atto.decimal
