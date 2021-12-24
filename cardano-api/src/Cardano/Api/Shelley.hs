@@ -179,10 +179,15 @@ module Cardano.Api.Shelley
 
     -- ** Local State Query
     DebugLedgerState(..),
+    decodeDebugLedgerState,
     ProtocolState(..),
+    decodeProtocolState,
     SerialisedDebugLedgerState(..),
     UTxO(..),
 
+    -- ** Various calculations
+    LeadershipError(..),
+    eligibleLeadershipSlots,
     -- ** Conversions
     shelleyPayAddrToPlutusPubKHash,
     --TODO: arrange not to export these
@@ -198,6 +203,7 @@ import           Cardano.Api.Eras
 import           Cardano.Api.IPC
 import           Cardano.Api.KeysPraos
 import           Cardano.Api.KeysShelley
+import           Cardano.Api.LedgerState
 import           Cardano.Api.NetworkId
 import           Cardano.Api.OperationalCertificate
 import           Cardano.Api.ProtocolParameters
