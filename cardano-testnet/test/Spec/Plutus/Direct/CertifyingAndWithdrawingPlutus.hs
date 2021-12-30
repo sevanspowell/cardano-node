@@ -58,6 +58,9 @@ In this test, we delegate a Plutus script staking address to our stake pool. We 
 isLinux :: Bool
 isLinux = os == "linux"
 
+isMacOS :: Bool
+isMacOS = os == "darwin"
+
 hprop_plutus_certifying_withdrawing :: Property
 hprop_plutus_certifying_withdrawing = H.integration . H.runFinallies . H.workspace "chairman" $ \tempAbsBasePath' -> do
   projectBase <- H.note =<< H.noteIO . IO.canonicalizePath =<< H.getProjectBase
@@ -620,6 +623,11 @@ hprop_plutus_certifying_withdrawing = H.integration . H.runFinallies . H.workspa
     , "--testnet-magic", show @Int testnetMagic
     , "--out-file", work </> "ledger-state.json"
     ]
+
+  -- Github actions needs a little more time
+  if isMacOS
+  then H.threadDelay 5000000
+  else H.threadDelay 4000000
 
   void $ H.execCli' execConfig
     [ "query",  "stake-address-info"
