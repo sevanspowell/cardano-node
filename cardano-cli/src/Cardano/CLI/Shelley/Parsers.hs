@@ -890,6 +890,8 @@ pQueryCmd =
         (Opt.info pQueryStakeSnapshot $ Opt.progDesc "Obtain the three stake snapshots for a pool, plus the total active stake (advanced command)")
     , subParser "pool-params"
         (Opt.info pQueryPoolParams $ Opt.progDesc "Dump the pool parameters (Ledger.NewEpochState.esLState._delegationState._pState._pParams -- advanced command)")
+    , subParser "leadership-schedule"
+        (Opt.info pLeadershipSchedule $ Opt.progDesc "Get the slots the node is expected to mint a block in (advanced command")
     ]
   where
     pQueryProtocolParameters :: Parser QueryCmd
@@ -958,6 +960,15 @@ pQueryCmd =
       <$> pConsensusModeParams
       <*> pNetworkId
       <*> pStakePoolVerificationKeyHash
+
+    pLeadershipSchedule :: Parser QueryCmd
+    pLeadershipSchedule = QueryLeadershipSchedule
+      <$> pConsensusModeParams
+      <*> pNetworkId
+      <*> pGenesisFile "Shelley genesis filepath"
+      <*> pStakePoolVerificationKeyHash
+      <*> pVrfSigningKeyFile
+
 
 
 pGovernanceCmd :: Parser GovernanceCmd
@@ -1452,6 +1463,17 @@ pRequiredSigner =
       <> Opt.help "Hash of the verification key (zero or more) whose \
                   \signature is required."
       )
+
+pVrfSigningKeyFile :: Parser SigningKeyFile
+pVrfSigningKeyFile =
+  SigningKeyFile <$>
+    Opt.strOption
+      (  Opt.long "signing-key-file"
+      <> Opt.metavar "FILE"
+      <> Opt.help "Input filepath of the VRF signing key."
+      <> Opt.completer (Opt.bashCompleter "file")
+      )
+
 
 pSomeWitnessSigningData :: Parser [WitnessSigningData]
 pSomeWitnessSigningData =
