@@ -521,9 +521,9 @@ makeNodeConfiguration pnc = do
  where
    makeShutdownConfig :: PartialShutdownConfig -> Either String ShutdownConfig
    makeShutdownConfig psc =
-     ShutdownConfig
-      <$> getLast (pscIPC psc)
-      <*> lastToEither "Missing Shutdown Config OnSlotSynced" (pscOnSlotSynced psc)
+     case getLast (pscOnSlotSynced psc) of
+       Nothing -> Left "Missing Shutdown Config OnSlotSynced"
+       Just x  -> Right $ ShutdownConfig (getLast (pscIPC psc)) x
 
    makeSocketConfig :: PartialSocketConfig -> SocketConfig
    makeSocketConfig psc =

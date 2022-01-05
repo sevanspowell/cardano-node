@@ -1,8 +1,8 @@
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE PackageImports #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE PackageImports #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module Cardano.Node.Handlers.Shutdown
@@ -20,10 +20,11 @@ module Cardano.Node.Handlers.Shutdown
   )
 where
 
-import           Prelude
 import           Data.Aeson (FromJSON, ToJSON)
-import           Generic.Data (gmappend)
+import           Data.Monoid (Last (..))
+import           Generic.Data (Generic, gmappend)
 import           Generic.Data.Orphans ()
+import           Prelude
 
 import           Control.Concurrent.Async (race_)
 import           Control.Exception
@@ -36,7 +37,7 @@ import qualified System.IO.Error as IO
 import           System.Posix.Types (Fd (Fd))
 
 import           Cardano.Slotting.Slot (WithOrigin (..))
-import "contra-tracer" Control.Tracer
+import           "contra-tracer" Control.Tracer
 import qualified Ouroboros.Consensus.Storage.ChainDB as ChainDB
 import           Ouroboros.Consensus.Util.ResourceRegistry (ResourceRegistry)
 import           Ouroboros.Consensus.Util.STM (Watcher (..), forkLinkedWatcher)
@@ -79,11 +80,11 @@ withShutdownHandling
   -> IO ()
 withShutdownHandling ShutdownConfig{scIPC = Nothing} _ action = action
 withShutdownHandling ShutdownConfig{scIPC = Just fd} tr action = do
-  race_ (waitForEOF fileDescriptor) action
-where
+  race_ (waitForEOF fd) action
+ where
    waitForEOF :: Fd -> IO ()
-   waitForEOF (Fd fd) = do
-     hnd <- IO.fdToHandle fd
+   waitForEOF (Fd fileDesc) = do
+     hnd <- IO.fdToHandle fileDesc
      r <- try $ IO.hGetChar hnd
      case r of
        Left e
@@ -118,7 +119,8 @@ maybeSpawnOnSlotSyncedShutdownHandler sc tr registry chaindb =
       , wNotify      = \case
           Origin -> pure ()
           At cur -> when (cur >= maxSlot) $ do
-            traceWith tr (RequestingShutdown $ "spawnSlotLimitTerminator: reached target " <> show cur)
+            traceWith tr (RequestingShutdown $ "spawnSlotLimitTerminator: reached target "
+                                                 <> (pack . show) cur)
             throwIO ExitSuccess
       , wReader      = pointSlot <$> ChainDB.getTipPoint chaindb
       }

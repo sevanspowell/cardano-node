@@ -170,8 +170,8 @@ docTracers configFileName outputFileName _ = do
     shutdownTr <- mkCardanoTracer
                 trBase trForward mbTrEKG
                 "Shutdown"
-                namesShutdown
-                (const Warning)
+                namesForShutdown
+                severityShutdown
                 allPublic
     configureTracers trConfig docShutdown [shutdownTr]
     shutdownTrDoc <- documentTracer trConfig shutdownTr

@@ -21,7 +21,6 @@ module Cardano.Node.Run
 import           Cardano.Prelude hiding (ByteString, STM, atomically, take, trace)
 import           Prelude (String, error, id)
 import           Data.IP (toSockAddr)
-import           Prelude (String, id)
 
 import qualified Control.Concurrent.Async as Async
 import           Control.Monad.Class.MonadSTM.Strict
@@ -59,7 +58,6 @@ import           Cardano.Node.Configuration.Logging (LoggingLayer (..), createLo
 import           Cardano.Node.Configuration.POM (NodeConfiguration (..),
                    PartialNodeConfiguration (..), SomeNetworkP2PMode (..),
                    defaultPartialNodeConfiguration, makeNodeConfiguration, parseNodeConfigurationFP)
-import           Cardano.Node.Queries (HasKESInfo (..), HasKESMetricsData (..))
 import           Cardano.Node.NodeAddress
 import           Cardano.Node.Startup
 import           Cardano.Node.Types
@@ -328,25 +326,19 @@ handleSimpleNode runP p2pMode tracers nc onKernel = do
                          . supportedNodeToClientVersions
                          $ Proxy @blk
                          ))
-      -- else if isNewLogging (ncTraceConfig nc)
-      --   then do
-      --     let bin = BasicInfoNetwork {
-      --                 niAddresses     = catMaybes [ipv4, ipv6]
-      --               , niDiffusionMode = ncDiffusionMode nc
-      --               , niDnsProducers  = dnsProducers
-      --               , niIpProducers   = ipProducers
-      --               }
-      --     traceWith (basicInfoTracer nodeTracers) (BINetwork bin)
-      --   else pure ()
 
-  withShutdownHandling (ncShutdownConfig nc) (shutdownTracer tracers) $ \sfds ->
+  withShutdownHandling (ncShutdownConfig nc) (shutdownTracer tracers) $
     let nodeArgs = RunNodeArgs
           { rnTraceConsensus = consensusTracers tracers
           , rnTraceNTN       = nodeToNodeTracers tracers
           , rnTraceNTC       = nodeToClientTracers tracers
           , rnProtocolInfo   = pInfo
           , rnNodeKernelHook = \registry nodeKernel -> do
-              maybeSpawnOnSlotSyncedShutdownHandler (ncShutdownConfig nc) (shutdownTracer tracers) registry
+              maybeSpawnOnSlotSyncedShutdownHandler
+                (ncShutdownConfig nc)
+                (shutdownTracer tracers)
+                registry
+                (Node.getChainDB nodeKernel)
               onKernel nodeKernel
           , rnEnableP2P      = p2pMode
           }
