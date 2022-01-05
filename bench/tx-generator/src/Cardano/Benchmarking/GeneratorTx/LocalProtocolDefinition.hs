@@ -1,6 +1,7 @@
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE GADTs #-}
+{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -135,8 +136,10 @@ startProtocol logConfigFile = do
  where
   mkLoggingLayer :: NodeConfiguration -> SomeConsensusProtocol -> ExceptT CliError IO LoggingLayer
   mkLoggingLayer nc ptcl =
-    firstExceptT (\(ConfigErrorFileNotFound fp) -> ConfigNotFoundError fp) $
-    createLoggingLayer TracingOff (pack $ showVersion version) nc ptcl
+    firstExceptT (\ case
+      (ConfigErrorFileNotFound fp) -> ConfigNotFoundError fp
+      ConfigErrorNoEKG -> EKGNotFoundError) $
+        createLoggingLayer TracingOff (pack $ showVersion version) nc ptcl
 
   mkNodeConfig :: FilePath -> IO NodeConfiguration
   mkNodeConfig logConfig = do
@@ -168,6 +171,7 @@ data CliError  =
     GenesisReadError !FilePath !Genesis.GenesisDataError
   | FileNotFoundError !FilePath
   | ConfigNotFoundError !FilePath
+  | EKGNotFoundError
   | ProtocolInstantiationError !Text
   | BenchmarkRunnerError !GeneratorTx.TxGenError
   deriving stock Show
