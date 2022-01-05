@@ -295,9 +295,11 @@ instance AE.FromJSON ForwarderAddr where
   parseJSON = AE.withObject "ForwarderAddr" $ \o -> LocalSocket <$> o AE..: "filePath"
 
 data ForwarderMode =
-    -- | Forwarder initiates network connection with 'cardano-tracer' as a client.
+    -- | Forwarder works as a client: it initiates network connection with
+    -- 'cardano-tracer' and/or another Haskell acceptor application.
     Initiator
-    -- | Forwarder accepts network connection from 'cardano-tracer' as a server.
+    -- | Forwarder works as a server: it accepts network connection from
+    -- 'cardano-tracer' and/or another Haskell acceptor application.
   | Responder
   deriving (Eq, Ord, Show, Generic)
 
