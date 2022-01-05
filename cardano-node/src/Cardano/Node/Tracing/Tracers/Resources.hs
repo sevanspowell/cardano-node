@@ -7,11 +7,11 @@ module Cardano.Node.Tracing.Tracers.Resources
   ) where
 
 
-import "contra-tracer" Control.Tracer
+import           "contra-tracer" Control.Tracer
 
-import Cardano.Logging (SeverityS (..)) -- TODO: re-export 'Tracer'
-import Cardano.Logging.Resources
-import Cardano.Prelude hiding (trace)
+import           Cardano.Logging (SeverityS (..))
+import           Cardano.Logging.Resources
+import           Cardano.Prelude hiding (trace)
 
 startResourceTracer ::
      Tracer IO ResourceStats

@@ -1,5 +1,5 @@
 {-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE TypeApplications    #-}
+{-# LANGUAGE TypeApplications #-}
 
 {-# OPTIONS_GHC -Wno-orphans  #-}
 
@@ -15,8 +15,8 @@ import           Cardano.Prelude hiding (Show, show)
 
 import           Cardano.Node.Tracing.Render (renderHeaderHashForDetails)
 
-import           Ouroboros.Consensus.Block (ConvertRawHash (..), RealPoint,
-                     realPointHash, realPointSlot)
+import           Ouroboros.Consensus.Block (ConvertRawHash (..), RealPoint, realPointHash,
+                   realPointSlot)
 import           Ouroboros.Network.Block
 
 -- | A bit of a weird one, but needed because some of the very general

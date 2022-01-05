@@ -1,7 +1,7 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
-{-# LANGUAGE FlexibleContexts    #-}
-{-# LANGUAGE FlexibleInstances   #-}
-{-# LANGUAGE GADTs               #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE GADTs #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 {-# OPTIONS_GHC -Wno-orphans  #-}
@@ -46,11 +46,9 @@ import qualified Ouroboros.Network.Diffusion as ND
 import           Ouroboros.Network.Driver.Simple (TraceSendRecv (..))
 import qualified Ouroboros.Network.NodeToClient as NtC
 import qualified Ouroboros.Network.NodeToNode as NtN
-import           Ouroboros.Network.PeerSelection.LedgerPeers (AccPoolStake (..),
-                     NumberOfPeers (..), PoolStake (..), TraceLedgerPeers (..),
-                     UseLedgerAfter (..))
-import           Ouroboros.Network.PeerSelection.RelayAccessPoint
-                     (RelayAccessPoint (..))
+import           Ouroboros.Network.PeerSelection.LedgerPeers (AccPoolStake (..), NumberOfPeers (..),
+                   PoolStake (..), TraceLedgerPeers (..), UseLedgerAfter (..))
+import           Ouroboros.Network.PeerSelection.RelayAccessPoint (RelayAccessPoint (..))
 import           Ouroboros.Network.Protocol.BlockFetch.Type (Message (..))
 import qualified Ouroboros.Network.Protocol.Handshake.Type as HS
 import           Ouroboros.Network.Snocket (LocalAddress (..))
@@ -567,63 +565,63 @@ docDiffusionInit = Documented [
     DocMsg
       (ND.RunServer (pure anyProto))
       []
-      "RunServer TODO"
+      "RunServer "
   , DocMsg
       (ND.RunLocalServer anyProto)
       []
-      "RunLocalServer TODO"
+      "RunLocalServer "
   , DocMsg
       (ND.UsingSystemdSocket anyProto)
       []
-      "UsingSystemdSocket TODO"
+      "UsingSystemdSocket "
   , DocMsg
       (ND.CreateSystemdSocketForSnocketPath anyProto)
       []
-      "CreateSystemdSocketForSnocketPath TODO"
+      "CreateSystemdSocketForSnocketPath "
   , DocMsg
       (ND.CreatedLocalSocket anyProto)
       []
-      "CreatedLocalSocket TODO"
+      "CreatedLocalSocket "
   , DocMsg
       (ND.ConfiguringLocalSocket anyProto anyProto)
       []
-      "ConfiguringLocalSocket TODO"
+      "ConfiguringLocalSocket "
   , DocMsg
       (ND.ListeningLocalSocket anyProto anyProto)
       []
-      "ListeningLocalSocket TODO"
+      "ListeningLocalSocket "
   , DocMsg
       (ND.LocalSocketUp anyProto anyProto)
       []
-      "LocalSocketUp TODO"
+      "LocalSocketUp "
   , DocMsg
       (ND.CreatingServerSocket anyProto)
       []
-      "CreatingServerSocket TODO"
+      "CreatingServerSocket "
   , DocMsg
       (ND.ConfiguringServerSocket anyProto)
       []
-      "ConfiguringServerSocket TODO"
+      "ConfiguringServerSocket "
   , DocMsg
       (ND.ListeningServerSocket anyProto)
       []
-      "ListeningServerSocket TODO"
+      "ListeningServerSocket "
   , DocMsg
       (ND.ServerSocketUp anyProto)
       []
-      "ServerSocketUp TODO"
+      "ServerSocketUp "
   , DocMsg
       (ND.UnsupportedLocalSystemdSocket anyProto)
       []
-      "UnsupportedLocalSystemdSocket TODO"
+      "UnsupportedLocalSystemdSocket "
   , DocMsg
       ND.UnsupportedReadySocketCase
       []
-      "UnsupportedReadySocketCase TODO"
+      "UnsupportedReadySocketCase "
   , DocMsg
       (ND.DiffusionErrored anyProto)
       []
-      "DiffusionErrored TODO"
+      "DiffusionErrored "
   ]
 
 --------------------------------------------------------------------------------

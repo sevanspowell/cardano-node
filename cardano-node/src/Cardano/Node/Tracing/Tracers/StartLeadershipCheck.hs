@@ -1,9 +1,9 @@
-{-# LANGUAGE DataKinds         #-}
-{-# LANGUAGE FlexibleContexts  #-}
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE LambdaCase        #-}
-{-# LANGUAGE NamedFieldPuns    #-}
-{-# LANGUAGE PackageImports    #-}
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE PackageImports #-}
 
 module Cardano.Node.Tracing.Tracers.StartLeadershipCheck
   (
@@ -26,14 +26,13 @@ import           Ouroboros.Network.NodeToNode (RemoteConnectionId)
 import           Ouroboros.Consensus.Block (SlotNo (..))
 import           Ouroboros.Consensus.HardFork.Combinator
 import           Ouroboros.Consensus.Ledger.Abstract (IsLedger)
-import           Ouroboros.Consensus.Ledger.Extended (ExtLedgerState,
-                     ledgerState)
+import           Ouroboros.Consensus.Ledger.Extended (ExtLedgerState, ledgerState)
 import           Ouroboros.Consensus.Node (NodeKernel (..))
 import           Ouroboros.Consensus.Node.Tracers
 import qualified Ouroboros.Consensus.Storage.ChainDB as ChainDB
 
+import           Cardano.Node.Queries (LedgerQueries (..), NodeKernelData (..))
 import           Cardano.Slotting.Slot (fromWithOrigin)
-import           Cardano.Node.Queries (LedgerQueries(..), NodeKernelData (..))
 
 import           Cardano.Ledger.BaseTypes (StrictMaybe (..), fromSMaybe)
 

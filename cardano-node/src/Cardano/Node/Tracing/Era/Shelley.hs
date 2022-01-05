@@ -1,15 +1,15 @@
-{-# LANGUAGE DataKinds                #-}
-{-# LANGUAGE DerivingStrategies       #-}
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE DisambiguateRecordFields #-}
-{-# LANGUAGE EmptyCase                #-}
-{-# LANGUAGE FlexibleContexts         #-}
-{-# LANGUAGE FlexibleInstances        #-}
-{-# LANGUAGE MultiParamTypeClasses    #-}
-{-# LANGUAGE NamedFieldPuns           #-}
-{-# LANGUAGE OverloadedStrings        #-}
-{-# LANGUAGE ScopedTypeVariables      #-}
-{-# LANGUAGE TypeFamilies             #-}
-{-# LANGUAGE UndecidableInstances     #-}
+{-# LANGUAGE EmptyCase #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE UndecidableInstances #-}
 
 {-# OPTIONS_GHC -Wno-orphans  #-}
 
@@ -33,8 +33,7 @@ import           Cardano.Logging
 import           Cardano.Prelude
 import           Cardano.Slotting.Block (BlockNo (..))
 
-import           Ouroboros.Network.Block (SlotNo (..), blockHash, blockNo,
-                     blockSlot)
+import           Ouroboros.Network.Block (SlotNo (..), blockHash, blockNo, blockSlot)
 import           Ouroboros.Network.Point (WithOrigin, withOriginToMaybe)
 
 import           Ouroboros.Consensus.Ledger.SupportsMempool (txId)
@@ -141,8 +140,6 @@ instance Core.Crypto era => LogFormatting (TPraosCannotForge era) where
       , "actual" .= coreNodeVRFHash
       ]
 
--- TODO Tracers RemoveOld
--- deriving newtype instance ToJSON KESPeriod
 
 instance LogFormatting HotKey.KESInfo where
   forMachine _dtal forgeStateInfo =
@@ -517,15 +514,6 @@ instance ( ShelleyBasedEra era
              , "network" .= network
              , "addrs"   .= addrs
              ]
-
--- instance ToJSON MA.ValidityInterval where
---   toJSON vi =
---     Aeson.object $
---         [ "invalidBefore"    .= x | x <- mbfield (MA.invalidBefore    vi) ]
---      ++ [ "invalidHereafter" .= x | x <- mbfield (MA.invalidHereafter vi) ]
---     where
---       mbfield SNothing  = []
---       mbfield (SJust x) = [x]
 
 instance ( ShelleyBasedEra era
          , ToJSON (Core.Value era)
@@ -1031,61 +1019,6 @@ instance LogFormatting (Alonzo.UtxosPredicateFailure (Alonzo.AlonzoEra StandardC
   forMachine dtal (Alonzo.UpdateFailure pFailure) =
     forMachine dtal pFailure
 
--- TODO Trace RemoveOld
--- deriving newtype instance ToJSON Alonzo.IsValid
---
--- instance ToJSON (Alonzo.CollectError StandardCrypto) where
---   toJSON cError =
---     case cError of
---       Alonzo.NoRedeemer sPurpose ->
---         object
---           [ "kind" .= String "CollectError"
---           , "error" .= String "NoRedeemer"
---           , "scriptpurpose" .= renderScriptPurpose sPurpose
---           ]
---       Alonzo.NoWitness sHash ->
---         object
---           [ "kind" .= String "CollectError"
---           , "error" .= String "NoWitness"
---           , "scripthash" .= toJSON sHash
---           ]
---       Alonzo.NoCostModel lang ->
---         object
---           [ "kind" .= String "CollectError"
---           , "error" .= String "NoCostModel"
---           , "language" .= toJSON lang
---           ]
---
--- instance ToJSON Alonzo.TagMismatchDescription where
---   toJSON tmd = case tmd of
---     Alonzo.PassedUnexpectedly ->
---       object
---         [ "kind" .= String "TagMismatchDescription"
---         , "error" .= String "PassedUnexpectedly"
---         ]
---     Alonzo.FailedUnexpectedly forReasons ->
---       object
---         [ "kind" .= String "TagMismatchDescription"
---         , "error" .= String "FailedUnexpectedly"
---         , "reconstruction" .= forReasons
---         ]
---
--- instance ToJSON Alonzo.FailureDescription where
---   toJSON f = case f of
---     Alonzo.OnePhaseFailure t ->
---       object
---         [ "kind" .= String "FailureDescription"
---         , "error" .= String "OnePhaseFailure"
---         , "description" .= t
---         ]
---     Alonzo.PlutusFailure t bs ->
---       object
---         [ "kind" .= String "FailureDescription"
---         , "error" .= String "PlutusFailure"
---         , "description" .= t
---         , "reconstructionDetail" .= bs
---         ]
-
 instance LogFormatting (AlonzoBbodyPredFail (Alonzo.AlonzoEra StandardCrypto)) where
   forMachine _ err = mkObject [ "kind" .= String "AlonzoBbodyPredFail"
                             , "error" .= String (show err)
@@ -1103,10 +1036,3 @@ showLastAppBlockNo :: WithOrigin (LastAppliedBlock crypto) -> Text
 showLastAppBlockNo wOblk =  case withOriginToMaybe wOblk of
                      Nothing  -> "Genesis Block"
                      Just blk -> textShow . unBlockNo $ labBlockNo blk
-
--- TODO Tracers RemoveOld
--- -- Common to cardano-cli
---
--- deriving newtype instance Core.Crypto crypto => ToJSON (Core.AuxiliaryDataHash crypto)
---
--- deriving newtype instance Core.Crypto crypto => ToJSON (TxId crypto)

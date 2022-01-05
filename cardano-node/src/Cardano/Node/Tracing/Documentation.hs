@@ -1,9 +1,9 @@
-{-# LANGUAGE AllowAmbiguousTypes   #-}
-{-# LANGUAGE FlexibleContexts      #-}
-{-# LANGUAGE FlexibleInstances     #-}
-{-# LANGUAGE GADTs                 #-}
+{-# LANGUAGE AllowAmbiguousTypes #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE GADTs #-}
 {-# LANGUAGE QuantifiedConstraints #-}
-{-# LANGUAGE ScopedTypeVariables   #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module Cardano.Node.Tracing.Documentation
   ( docTracers
@@ -24,8 +24,7 @@ import           Cardano.Node.Tracing.Tracers.BlockReplayProgress
 import           Cardano.Node.Tracing.Tracers.ChainDB
 import           Cardano.Node.Tracing.Tracers.Consensus
 import           Cardano.Node.Tracing.Tracers.Diffusion
-import           Cardano.Node.Tracing.Tracers.ForgingThreadStats
-                     (forgeThreadStats)
+import           Cardano.Node.Tracing.Tracers.ForgingThreadStats (forgeThreadStats)
 import           Cardano.Node.Tracing.Tracers.KESInfo
 import           Cardano.Node.Tracing.Tracers.NodeToClient
 import           Cardano.Node.Tracing.Tracers.NodeToNode
@@ -39,23 +38,17 @@ import           Cardano.Node.Handlers.Shutdown (ShutdownTrace)
 import           Cardano.Node.Startup
 import           Cardano.Node.TraceConstraints
 
-import           Ouroboros.Consensus.BlockchainTime.WallClock.Util
-                     (TraceBlockchainTimeEvent (..))
--- import           Ouroboros.Consensus.Byron.Ledger.Block (ByronBlock)
+import           Ouroboros.Consensus.BlockchainTime.WallClock.Util (TraceBlockchainTimeEvent (..))
 import           Ouroboros.Consensus.Ledger.Query (Query)
-import           Ouroboros.Consensus.Ledger.SupportsMempool (ApplyTxErr, GenTx,
-                     GenTxId, TxId)
-import           Ouroboros.Consensus.Ledger.SupportsProtocol
-                     (LedgerSupportsProtocol)
+import           Ouroboros.Consensus.Ledger.SupportsMempool (ApplyTxErr, GenTx, GenTxId, TxId)
+import           Ouroboros.Consensus.Ledger.SupportsProtocol (LedgerSupportsProtocol)
 import           Ouroboros.Consensus.Mempool.API (TraceEventMempool (..))
 import           Ouroboros.Consensus.MiniProtocol.BlockFetch.Server
-                     (TraceBlockFetchServerEvent (..))
-import           Ouroboros.Consensus.MiniProtocol.ChainSync.Client
-                     (TraceChainSyncClientEvent)
-import           Ouroboros.Consensus.MiniProtocol.ChainSync.Server
-                     (TraceChainSyncServerEvent)
+                   (TraceBlockFetchServerEvent (..))
+import           Ouroboros.Consensus.MiniProtocol.ChainSync.Client (TraceChainSyncClientEvent)
+import           Ouroboros.Consensus.MiniProtocol.ChainSync.Server (TraceChainSyncServerEvent)
 import           Ouroboros.Consensus.MiniProtocol.LocalTxSubmission.Server
-                     (TraceLocalTxSubmissionServerEvent (..))
+                   (TraceLocalTxSubmissionServerEvent (..))
 import qualified Ouroboros.Consensus.Node.Run as Consensus
 import qualified Ouroboros.Consensus.Node.Tracers as Consensus
 import qualified Ouroboros.Consensus.Protocol.Ledger.HotKey as HotKey
@@ -65,44 +58,35 @@ import qualified Ouroboros.Consensus.Storage.ChainDB as ChainDB
 import           Ouroboros.Network.Block (Point (..), Tip)
 import qualified Ouroboros.Network.BlockFetch.ClientState as BlockFetch
 import           Ouroboros.Network.BlockFetch.Decision
-import           Ouroboros.Network.ConnectionHandler
-                     (ConnectionHandlerTrace (..))
+import           Ouroboros.Network.ConnectionHandler (ConnectionHandlerTrace (..))
 import           Ouroboros.Network.ConnectionId (ConnectionId)
-import           Ouroboros.Network.ConnectionManager.Types
-                     (ConnectionManagerTrace (..))
+import           Ouroboros.Network.ConnectionManager.Types (ConnectionManagerTrace (..))
 import qualified Ouroboros.Network.Diffusion as Diffusion
 import           Ouroboros.Network.Driver.Simple (TraceSendRecv)
 import           Ouroboros.Network.InboundGovernor (InboundGovernorTrace)
 import           Ouroboros.Network.KeepAlive (TraceKeepAliveClient (..))
 import qualified Ouroboros.Network.NodeToClient as NtC
-import           Ouroboros.Network.NodeToNode (ErrorPolicyTrace (..),
-                     RemoteAddress, WithAddr (..))
+import           Ouroboros.Network.NodeToNode (ErrorPolicyTrace (..), RemoteAddress, WithAddr (..))
 import qualified Ouroboros.Network.NodeToNode as NtN
-import           Ouroboros.Network.PeerSelection.Governor
-                     (DebugPeerSelection (..), PeerSelectionCounters (..),
-                     TracePeerSelection (..))
+import           Ouroboros.Network.PeerSelection.Governor (DebugPeerSelection (..),
+                   PeerSelectionCounters (..), TracePeerSelection (..))
 import           Ouroboros.Network.PeerSelection.LedgerPeers (TraceLedgerPeers)
-import           Ouroboros.Network.PeerSelection.PeerStateActions
-                     (PeerSelectionActionsTrace (..))
-import           Ouroboros.Network.PeerSelection.RootPeersDNS
-                     (TraceLocalRootPeers (..), TracePublicRootPeers (..))
+import           Ouroboros.Network.PeerSelection.PeerStateActions (PeerSelectionActionsTrace (..))
+import           Ouroboros.Network.PeerSelection.RootPeersDNS (TraceLocalRootPeers (..),
+                   TracePublicRootPeers (..))
 import           Ouroboros.Network.Protocol.BlockFetch.Type (BlockFetch)
 import           Ouroboros.Network.Protocol.ChainSync.Type (ChainSync)
-import           Ouroboros.Network.Protocol.LocalStateQuery.Type
-                     (LocalStateQuery)
+import           Ouroboros.Network.Protocol.LocalStateQuery.Type (LocalStateQuery)
 import qualified Ouroboros.Network.Protocol.LocalTxSubmission.Type as LTS
 import           Ouroboros.Network.Protocol.TxSubmission.Type (TxSubmission)
 import           Ouroboros.Network.Protocol.TxSubmission2.Type (TxSubmission2)
 import           Ouroboros.Network.Server2 (ServerTrace (..))
 import           Ouroboros.Network.Snocket (LocalAddress (..))
-import           Ouroboros.Network.Subscription.Dns (DnsTrace (..),
-                     WithDomainName (..))
+import           Ouroboros.Network.Subscription.Dns (DnsTrace (..), WithDomainName (..))
 import           Ouroboros.Network.Subscription.Ip (WithIPList (..))
 import           Ouroboros.Network.Subscription.Worker (SubscriptionTrace (..))
-import           Ouroboros.Network.TxSubmission.Inbound
-                     (TraceTxSubmissionInbound)
-import           Ouroboros.Network.TxSubmission.Outbound
-                     (TraceTxSubmissionOutbound)
+import           Ouroboros.Network.TxSubmission.Inbound (TraceTxSubmissionInbound)
+import           Ouroboros.Network.TxSubmission.Outbound (TraceTxSubmissionOutbound)
 
 
 
@@ -340,7 +324,7 @@ docTracers configFileName outputFileName _ = do
                 severityForge
                 allPublic
 
-                -- TODO Tracers docforgeThreadStatsTr?
+    -- TODO Tracers docforgeThreadStatsTr?
     forgeThreadStatsTr <- mkCardanoTracer'
                 trBase trForward mbTrEKG
                 "ForgeStats"

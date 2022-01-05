@@ -2,7 +2,9 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE UndecidableInstances #-}
+
 {-# OPTIONS_GHC -Wno-name-shadowing -Wno-orphans #-}
+
 module Cardano.Node.Tracing.Tracers.Shutdown
   ( namesForShutdown
   , severityShutdown

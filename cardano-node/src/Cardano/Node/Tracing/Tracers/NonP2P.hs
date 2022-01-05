@@ -1,8 +1,8 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
-{-# LANGUAGE FlexibleContexts    #-}
-{-# LANGUAGE FlexibleInstances   #-}
-{-# LANGUAGE GADTs               #-}
-{-# LANGUAGE RecordWildCards     #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE GADTs #-}
+{-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 {-# OPTIONS_GHC -Wno-orphans  #-}
@@ -44,16 +44,13 @@ import qualified Network.Socket as Socket
 import           Text.Show
 
 import qualified Ouroboros.Network.NodeToClient as NtC
-import           Ouroboros.Network.NodeToNode (ErrorPolicyTrace (..),
-                     WithAddr (..))
+import           Ouroboros.Network.NodeToNode (ErrorPolicyTrace (..), WithAddr (..))
 import qualified Ouroboros.Network.NodeToNode as NtN
 import           Ouroboros.Network.Snocket (LocalAddress (..))
-import           Ouroboros.Network.Subscription.Dns (DnsTrace (..),
-                     WithDomainName (..))
-import           Ouroboros.Network.Subscription.Ip (SubscriptionTrace,
-                     WithIPList (..))
-import           Ouroboros.Network.Subscription.Worker (ConnectResult (..),
-                     SubscriberError, SubscriptionTrace (..))
+import           Ouroboros.Network.Subscription.Dns (DnsTrace (..), WithDomainName (..))
+import           Ouroboros.Network.Subscription.Ip (SubscriptionTrace, WithIPList (..))
+import           Ouroboros.Network.Subscription.Worker (ConnectResult (..), SubscriberError,
+                   SubscriptionTrace (..))
 
 
 instance LogFormatting NtN.RemoteAddress where

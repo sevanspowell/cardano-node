@@ -1,6 +1,6 @@
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE NamedFieldPuns    #-}
-{-# LANGUAGE RecordWildCards   #-}
+{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE RecordWildCards #-}
 
 module Cardano.Node.Tracing.Tracers.ForgingThreadStats
   ( ForgingStats (..)
@@ -10,13 +10,12 @@ module Cardano.Node.Tracing.Tracers.ForgingThreadStats
   ) where
 
 import           Cardano.Logging
-import           Cardano.Prelude hiding ((:.:), All, concat)
+import           Cardano.Prelude hiding (All, concat, (:.:))
 import           Data.Aeson (Value (..), (.=))
 import qualified Data.Map.Strict as Map
 
+import           Cardano.Node.Tracing.Tracers.StartLeadershipCheck (ForgeTracerType)
 import           Cardano.Slotting.Slot (SlotNo (..))
-import           Cardano.Node.Tracing.Tracers.StartLeadershipCheck
-                     (ForgeTracerType)
 import           Ouroboros.Consensus.Node.Tracers
 import           Ouroboros.Consensus.Shelley.Node ()
 

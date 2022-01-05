@@ -1,10 +1,10 @@
-{-# LANGUAGE FlexibleContexts      #-}
-{-# LANGUAGE FlexibleInstances     #-}
-{-# LANGUAGE GADTs                 #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE GADTs #-}
 {-# LANGUAGE QuantifiedConstraints #-}
-{-# LANGUAGE ScopedTypeVariables   #-}
-{-# LANGUAGE TypeApplications      #-}
-{-# LANGUAGE UndecidableInstances  #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE UndecidableInstances #-}
 
 {-# OPTIONS_GHC -Wno-orphans  #-}
 
@@ -36,30 +36,25 @@ import           Cardano.Logging
 import           Cardano.Prelude hiding (Show, show)
 import           Data.Aeson (Value (String), toJSON, (.=))
 import           Data.Text (pack)
-import           Network.TypedProtocol.Codec (AnyMessageAndAgency (..),
-                     PeerHasAgency (..))
+import           Network.TypedProtocol.Codec (AnyMessageAndAgency (..), PeerHasAgency (..))
 import           Text.Show
 
 import           Cardano.Node.Queries (ConvertTxId)
 import           Cardano.Node.Tracing.Render (renderHeaderHash, renderTxIdForDetails)
 
-import           Ouroboros.Consensus.Block (ConvertRawHash, GetHeader,
-                     HasHeader, Header, getHeader)
-import           Ouroboros.Consensus.Ledger.SupportsMempool (GenTx, GenTxId,
-                     HasTxId, HasTxs, LedgerSupportsMempool, txId, extractTxs)
-import           Ouroboros.Consensus.Node.Run (SerialiseNodeToNodeConstraints,
-                     estimateBlockSize)
+import           Ouroboros.Consensus.Block (ConvertRawHash, GetHeader, HasHeader, Header, getHeader)
+import           Ouroboros.Consensus.Ledger.SupportsMempool (GenTx, GenTxId, HasTxId, HasTxs,
+                   LedgerSupportsMempool, extractTxs, txId)
+import           Ouroboros.Consensus.Node.Run (SerialiseNodeToNodeConstraints, estimateBlockSize)
 import           Ouroboros.Consensus.Storage.Serialisation (SerialisedHeader)
 
 import           Ouroboros.Network.Block (Point, Serialised, Tip, blockHash)
 import qualified Ouroboros.Network.BlockFetch.ClientState as BlockFetch
 import           Ouroboros.Network.Driver.Simple (TraceSendRecv (..))
-import           Ouroboros.Network.Protocol.BlockFetch.Type (BlockFetch (..),
-                     Message (..))
+import           Ouroboros.Network.Protocol.BlockFetch.Type (BlockFetch (..), Message (..))
 import           Ouroboros.Network.Protocol.ChainSync.Type as ChainSync
-import           Ouroboros.Network.Protocol.Trans.Hello.Type
-                     (ClientHasAgency (..), Hello, Message (..),
-                     ServerHasAgency (..))
+import           Ouroboros.Network.Protocol.Trans.Hello.Type (ClientHasAgency (..), Hello,
+                   Message (..), ServerHasAgency (..))
 import qualified Ouroboros.Network.Protocol.TxSubmission.Type as STX
 import qualified Ouroboros.Network.Protocol.TxSubmission2.Type as TXS
 

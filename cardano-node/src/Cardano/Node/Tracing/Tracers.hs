@@ -1,12 +1,12 @@
-{-# LANGUAGE AllowAmbiguousTypes   #-}
-{-# LANGUAGE FlexibleContexts      #-}
-{-# LANGUAGE FlexibleInstances     #-}
-{-# LANGUAGE GADTs                 #-}
-{-# LANGUAGE LambdaCase            #-}
-{-# LANGUAGE PackageImports        #-}
+{-# LANGUAGE AllowAmbiguousTypes #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE GADTs #-}
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE PackageImports #-}
 {-# LANGUAGE QuantifiedConstraints #-}
-{-# LANGUAGE ScopedTypeVariables   #-}
-{-# LANGUAGE TypeApplications      #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeApplications #-}
 
 module Cardano.Node.Tracing.Tracers
   ( mkDispatchTracers
@@ -23,8 +23,7 @@ import           Cardano.Node.Tracing.Tracers.BlockReplayProgress
 import           Cardano.Node.Tracing.Tracers.ChainDB
 import           Cardano.Node.Tracing.Tracers.Consensus
 import           Cardano.Node.Tracing.Tracers.Diffusion
-import           Cardano.Node.Tracing.Tracers.ForgingThreadStats
-                     (forgeThreadStats)
+import           Cardano.Node.Tracing.Tracers.ForgingThreadStats (forgeThreadStats)
 import           Cardano.Node.Tracing.Tracers.KESInfo
 import           Cardano.Node.Tracing.Tracers.NodeToClient
 import           Cardano.Node.Tracing.Tracers.NodeToNode
@@ -41,8 +40,7 @@ import           Cardano.Node.TraceConstraints
 import           Cardano.Node.Tracing
 import           "contra-tracer" Control.Tracer (Tracer (..))
 import           Ouroboros.Consensus.Ledger.Inspect (LedgerEvent)
-import           Ouroboros.Consensus.MiniProtocol.ChainSync.Client
-                     (TraceChainSyncClientEvent)
+import           Ouroboros.Consensus.MiniProtocol.ChainSync.Client (TraceChainSyncClientEvent)
 import qualified Ouroboros.Consensus.Network.NodeToClient as NodeToClient
 import qualified Ouroboros.Consensus.Network.NodeToClient as NtC
 import qualified Ouroboros.Consensus.Network.NodeToNode as NodeToNode
@@ -58,8 +56,7 @@ import           Ouroboros.Network.ConnectionId (ConnectionId)
 import qualified Ouroboros.Network.Diffusion as Diffusion
 import qualified Ouroboros.Network.Diffusion.NonP2P as NonP2P
 import qualified Ouroboros.Network.Diffusion.P2P as P2P
-import           Ouroboros.Network.NodeToClient (LocalAddress,
-                     NodeToClientVersion)
+import           Ouroboros.Network.NodeToClient (LocalAddress, NodeToClientVersion)
 import           Ouroboros.Network.NodeToNode (NodeToNodeVersion, RemoteAddress)
 
 -- | Construct tracers for all system components.
@@ -142,13 +139,13 @@ mkDispatchTracers nodeKernel trBase trForward mbTrEKG trDataPoint trConfig enabl
                 allPublic
     configureTracers trConfig docReplayedBlock [replayBlockTr]
 
-    -- TODO: understand how to express this better
-    replayBlockTr2 <- withReplayedBlock replayBlockTr
-    let chainDBTr2 = filterTrace
-                      (\case (_, Just _, _) -> True
-                             (_, Nothing, ChainDB.TraceLedgerReplayEvent
+    -- This tracer handles replayed blocks specially
+    replayBlockTr' <- withReplayedBlock replayBlockTr
+    -- Filter out replayed blocks for this tracer
+    let chainDBTr' = filterTrace
+                      (\case (_, Nothing, ChainDB.TraceLedgerReplayEvent
                                             LedgerDB.ReplayedBlock {}) -> False
-                             (_, Nothing, _) -> True)
+                             (_, _, _) -> True)
                       chainDBTr
 
     consensusTr :: Consensus.Tracers
@@ -183,8 +180,8 @@ mkDispatchTracers nodeKernel trBase trForward mbTrEKG trDataPoint trConfig enabl
     diffusionTrExtra :: Diffusion.ExtraTracers p2p <-
       mkDiffusionTracersExtra trBase trForward mbTrEKG trDataPoint trConfig enableP2P
     pure Tracers
-      { chainDBTracer = Tracer (traceWith chainDBTr2)
-                        <> Tracer (traceWith replayBlockTr2)
+      { chainDBTracer = Tracer (traceWith chainDBTr')
+                        <> Tracer (traceWith replayBlockTr')
       , consensusTracers = consensusTr
       , nodeToClientTracers = nodeToClientTr
       , nodeToNodeTracers = nodeToNodeTr
@@ -640,12 +637,14 @@ mkDiffusionTracersExtra trBase trForward mbTrEKG _trDataPoint trConfig EnabledP2
                  traceWith peerSelectionActionsTr
              , P2P.dtConnectionManagerTracer = Tracer $
                  traceWith connectionManagerTr
-             , P2P.dtConnectionManagerTransitionTracer = mempty  --TODO
+             , P2P.dtConnectionManagerTransitionTracer = mempty
+                --TODO Add transition tracers later
              , P2P.dtServerTracer = Tracer $
                  traceWith serverTr
              , P2P.dtInboundGovernorTracer = Tracer $
                  traceWith inboundGovernorTr
-             , P2P.dtInboundGovernorTransitionTracer = mempty --TODO
+             , P2P.dtInboundGovernorTransitionTracer = mempty
+                --TODO Add transition tracers later
              , P2P.dtLocalConnectionManagerTracer =  Tracer $
                  traceWith localConnectionManagerTr
              , P2P.dtLocalServerTracer = Tracer $

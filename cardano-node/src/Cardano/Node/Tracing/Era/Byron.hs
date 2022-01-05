@@ -1,10 +1,10 @@
-{-# LANGUAGE FlexibleContexts      #-}
-{-# LANGUAGE FlexibleInstances     #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE OverloadedStrings     #-}
-{-# LANGUAGE ScopedTypeVariables   #-}
-{-# LANGUAGE TypeFamilies          #-}
-{-# LANGUAGE UndecidableInstances  #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE UndecidableInstances #-}
 
 {-# OPTIONS_GHC -Wno-orphans  #-}
 {-# OPTIONS_GHC -Wno-unused-imports  #-}
@@ -12,7 +12,8 @@
 module Cardano.Node.Tracing.Era.Byron () where
 
 -- TODO: Temporary hack for toJSON instances
-import Cardano.Tracing.OrphanInstances.Byron ()
+-- Will be moved when old tracing will be removed
+import           Cardano.Tracing.OrphanInstances.Byron ()
 
 import           Cardano.Logging
 import           Cardano.Prelude
@@ -25,16 +26,14 @@ import           Ouroboros.Consensus.Block (Header)
 import           Ouroboros.Network.Block (blockHash, blockNo, blockSlot)
 
 import           Ouroboros.Consensus.Byron.Ledger (ByronBlock (..),
-                     ByronOtherHeaderEnvelopeError (..), TxId (..),
-                     byronHeaderRaw)
-import           Ouroboros.Consensus.Byron.Ledger.Inspect
-                     (ByronLedgerUpdate (..), ProtocolUpdate (..),
-                     UpdateState (..))
+                   ByronOtherHeaderEnvelopeError (..), TxId (..), byronHeaderRaw)
+import           Ouroboros.Consensus.Byron.Ledger.Inspect (ByronLedgerUpdate (..),
+                   ProtocolUpdate (..), UpdateState (..))
 import           Ouroboros.Consensus.Ledger.SupportsMempool (GenTx, txId)
 import           Ouroboros.Consensus.Util.Condense (condense)
 
 import           Cardano.Chain.Block (ABlockOrBoundaryHdr (..), AHeader (..),
-                     ChainValidationError (..), delegationCertificate)
+                   ChainValidationError (..), delegationCertificate)
 import           Cardano.Chain.Byron.API (ApplyMempoolPayloadErr (..))
 import           Cardano.Chain.Delegation (delegateVK)
 import           Cardano.Crypto.Signing (VerificationKey)
@@ -122,14 +121,6 @@ instance LogFormatting (GenTx ByronBlock) where
     mkObject $
         ( "txid" .= txId tx )
      :  [ "tx"   .= condense tx | dtal == DDetailed ]
-
-
--- instance ToJSON (TxId (GenTx ByronBlock)) where
---   toJSON (ByronTxId             i) = toJSON (condense i)
---   toJSON (ByronDlgId            i) = toJSON (condense i)
---   toJSON (ByronUpdateProposalId i) = toJSON (condense i)
---   toJSON (ByronUpdateVoteId     i) = toJSON (condense i)
---
 
 instance LogFormatting ChainValidationError where
   forMachine _dtal ChainValidationBoundaryTooLarge =

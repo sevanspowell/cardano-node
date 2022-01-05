@@ -1,9 +1,9 @@
-{-# LANGUAGE FlexibleContexts    #-}
-{-# LANGUAGE FlexibleInstances   #-}
-{-# LANGUAGE GADTs               #-}
-{-# LANGUAGE NamedFieldPuns      #-}
-{-# LANGUAGE PolyKinds           #-}
-{-# LANGUAGE RecordWildCards     #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE GADTs #-}
+{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE PolyKinds #-}
+{-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 {-# OPTIONS_GHC -Wno-orphans  #-}
@@ -51,8 +51,7 @@ module Cardano.Node.Tracing.Tracers.P2P
 
 import           Cardano.Logging
 import           Cardano.Prelude hiding (group, show)
-import           Data.Aeson (ToJSON, ToJSONKey, Value (..), object, toJSON,
-                     toJSONList, (.=))
+import           Data.Aeson (ToJSON, ToJSONKey, Value (..), object, toJSON, toJSONList, (.=))
 import           Data.Aeson.Types (listValue)
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
@@ -67,30 +66,24 @@ import           Cardano.Node.Tracing.Tracers.NodeToNode ()
 import           Cardano.Node.Tracing.Tracers.NonP2P ()
 
 import           Network.Mux (MiniProtocolNum (..))
-import           Ouroboros.Network.ConnectionHandler
-                     (ConnectionHandlerTrace (..))
+import           Ouroboros.Network.ConnectionHandler (ConnectionHandlerTrace (..))
 import           Ouroboros.Network.ConnectionId (ConnectionId (..))
 import           Ouroboros.Network.ConnectionManager.Types (AbstractState (..),
-                     ConnectionManagerCounters (..),
-                     ConnectionManagerTrace (..), DemotedToColdRemoteTr (..),
-                     OperationResult (..))
+                   ConnectionManagerCounters (..), ConnectionManagerTrace (..),
+                   DemotedToColdRemoteTr (..), OperationResult (..))
 import qualified Ouroboros.Network.ConnectionManager.Types as ConnectionManager
 import           Ouroboros.Network.InboundGovernor (InboundGovernorTrace (..))
 import qualified Ouroboros.Network.InboundGovernor as InboundGovernor
-import           Ouroboros.Network.InboundGovernor.State
-                     (InboundGovernorCounters (..))
+import           Ouroboros.Network.InboundGovernor.State (InboundGovernorCounters (..))
 import qualified Ouroboros.Network.PeerSelection.EstablishedPeers as EstablishedPeers
-import           Ouroboros.Network.PeerSelection.Governor
-                     (DebugPeerSelection (..), PeerSelectionCounters (..),
-                     PeerSelectionState (..), PeerSelectionTargets (..),
-                     TracePeerSelection (..))
+import           Ouroboros.Network.PeerSelection.Governor (DebugPeerSelection (..),
+                   PeerSelectionCounters (..), PeerSelectionState (..), PeerSelectionTargets (..),
+                   TracePeerSelection (..))
 import qualified Ouroboros.Network.PeerSelection.KnownPeers as KnownPeers
-import           Ouroboros.Network.PeerSelection.PeerStateActions
-                     (PeerSelectionActionsTrace (..))
-import           Ouroboros.Network.PeerSelection.RelayAccessPoint
-                     (RelayAccessPoint)
-import           Ouroboros.Network.PeerSelection.RootPeersDNS
-                     (TraceLocalRootPeers (..), TracePublicRootPeers (..))
+import           Ouroboros.Network.PeerSelection.PeerStateActions (PeerSelectionActionsTrace (..))
+import           Ouroboros.Network.PeerSelection.RelayAccessPoint (RelayAccessPoint)
+import           Ouroboros.Network.PeerSelection.RootPeersDNS (TraceLocalRootPeers (..),
+                   TracePublicRootPeers (..))
 import           Ouroboros.Network.PeerSelection.Types ()
 import           Ouroboros.Network.RethrowPolicy (ErrorCommand (..))
 import           Ouroboros.Network.Server2 (ServerTrace (..))

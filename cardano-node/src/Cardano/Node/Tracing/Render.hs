@@ -1,7 +1,6 @@
 {-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE TypeApplications    #-}
+{-# LANGUAGE TypeApplications #-}
 
-{-# OPTIONS_GHC -Wno-unused-imports  #-}
 
 module Cardano.Node.Tracing.Render
   (
@@ -35,21 +34,16 @@ import qualified Data.Text as Text
 import qualified Data.Text.Encoding as Text
 
 import           Cardano.Logging
-import           Cardano.Slotting.Slot (EpochNo (..), SlotNo (..),
-                     WithOrigin (..))
 import           Cardano.Node.Queries (ConvertTxId (..))
-import           Ouroboros.Consensus.Block (BlockNo (..), ConvertRawHash (..),
-                     RealPoint (..))
+import           Cardano.Slotting.Slot (SlotNo (..), WithOrigin (..))
+import           Ouroboros.Consensus.Block (BlockNo (..), ConvertRawHash (..), RealPoint (..))
 import           Ouroboros.Consensus.Block.Abstract (Point (..))
 import           Ouroboros.Consensus.Ledger.SupportsMempool (GenTx, TxId)
 import qualified Ouroboros.Consensus.Storage.ImmutableDB.API as ImmDB
-import           Ouroboros.Consensus.Storage.ImmutableDB.Chunks.Internal
-                     (ChunkNo (..))
-import           Ouroboros.Consensus.Storage.ImmutableDB.Impl.Types
-                     (BlockOrEBB (..))
+import           Ouroboros.Consensus.Storage.ImmutableDB.Chunks.Internal (ChunkNo (..))
 import           Ouroboros.Consensus.Util.Condense (Condense, condense)
-import           Ouroboros.Network.Block (ChainHash (..), HeaderHash,
-                     StandardHash, Tip, getTipPoint)
+import           Ouroboros.Network.Block (ChainHash (..), HeaderHash, StandardHash, Tip,
+                   getTipPoint)
 
 condenseT :: Condense a => a -> Text
 condenseT = Text.pack . condense

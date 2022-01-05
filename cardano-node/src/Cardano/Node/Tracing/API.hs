@@ -6,38 +6,36 @@ module Cardano.Node.Tracing.API
   (initTraceDispatcher)
 where
 
-import Prelude
+import           Prelude
 
-import "contra-tracer" Control.Tracer (traceWith)
-import Data.Maybe (fromMaybe)
-import Data.Time.Clock (getCurrentTime)
+import           "contra-tracer" Control.Tracer (traceWith)
+import           Data.Maybe (fromMaybe)
+import           Data.Time.Clock (getCurrentTime)
 
-import System.Metrics as EKG
+import           System.Metrics as EKG
 
-import Network.Mux.Trace (TraceLabelPeer (..))
+import           Network.Mux.Trace (TraceLabelPeer (..))
 
-import Ouroboros.Consensus.Ledger.Inspect (LedgerEvent)
-import Ouroboros.Consensus.Node (NetworkP2PMode, RunNode)
-import Ouroboros.Consensus.MiniProtocol.ChainSync.Client (TraceChainSyncClientEvent)
-import Ouroboros.Network.ConnectionId (ConnectionId)
-import Ouroboros.Network.Magic (NetworkMagic)
-import Ouroboros.Network.NodeToClient (withIOManager)
-import Ouroboros.Network.NodeToNode (RemoteAddress)
+import           Ouroboros.Consensus.Ledger.Inspect (LedgerEvent)
+import           Ouroboros.Consensus.MiniProtocol.ChainSync.Client (TraceChainSyncClientEvent)
+import           Ouroboros.Consensus.Node (NetworkP2PMode, RunNode)
+import           Ouroboros.Network.ConnectionId (ConnectionId)
+import           Ouroboros.Network.Magic (NetworkMagic)
+import           Ouroboros.Network.NodeToClient (withIOManager)
+import           Ouroboros.Network.NodeToNode (RemoteAddress)
 
-import Cardano.Node.Configuration.POM (NodeConfiguration (..), ncProtocol)
-import Cardano.Node.Protocol.Types
-import Cardano.Node.Queries
-import Cardano.Node.Startup
-import Cardano.Node.TraceConstraints
-import Cardano.Node.Tracing
-import Cardano.Node.Types
+import           Cardano.Node.Configuration.POM (NodeConfiguration (..), ncProtocol)
+import           Cardano.Node.Protocol.Types
+import           Cardano.Node.Queries
+import           Cardano.Node.Startup
+import           Cardano.Node.TraceConstraints
+import           Cardano.Node.Tracing
+import           Cardano.Node.Types
 
-import Cardano.Logging hiding (traceWith)
-import Cardano.Node.Tracing.Tracers
-import Cardano.Node.Tracing.Tracers.Resources (startResourceTracer)
-import Cardano.Node.Tracing.Tracers.Peer (startPeerTracer)
-
-import Debug.Trace
+import           Cardano.Logging hiding (traceWith)
+import           Cardano.Node.Tracing.Tracers
+import           Cardano.Node.Tracing.Tracers.Peer (startPeerTracer)
+import           Cardano.Node.Tracing.Tracers.Resources (startResourceTracer)
 
 initTraceDispatcher ::
   forall blk p2p.
@@ -56,7 +54,7 @@ initTraceDispatcher ::
   -> IO (Tracers RemoteConnectionId LocalConnectionId blk p2p)
 initTraceDispatcher nc p networkMagic nodeKernel p2pMode = do
   trConfig <- readConfiguration (unConfigPath $ ncConfigFile nc)
-  trace ("TraceConfig " <> show trConfig) $ pure ()
+--  trace ("TraceConfig " <> show trConfig) $ pure ()
 
   ekgStore <- EKG.newStore
   ekgTrace <- ekgTracer (Left ekgStore)

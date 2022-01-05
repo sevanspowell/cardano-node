@@ -1,9 +1,9 @@
-{-# LANGUAGE FlexibleContexts     #-}
-{-# LANGUAGE FlexibleInstances    #-}
-{-# LANGUAGE NamedFieldPuns       #-}
-{-# LANGUAGE ScopedTypeVariables  #-}
-{-# LANGUAGE TypeApplications     #-}
-{-# LANGUAGE TypeFamilies         #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 
@@ -27,31 +27,27 @@ import           Prelude (id)
 import           Text.Show
 
 import           Cardano.Logging
-import           Cardano.Prelude hiding (Show, show, trace)
 import           Cardano.Node.Tracing.Era.Byron ()
 import           Cardano.Node.Tracing.Era.Shelley ()
 import           Cardano.Node.Tracing.Formatting ()
 import           Cardano.Node.Tracing.Render
+import           Cardano.Prelude hiding (Show, show, trace)
 
 import           Ouroboros.Consensus.Block
-import           Ouroboros.Consensus.HeaderValidation (HeaderEnvelopeError (..),
-                     HeaderError (..), OtherHeaderEnvelopeError)
+import           Ouroboros.Consensus.HeaderValidation (HeaderEnvelopeError (..), HeaderError (..),
+                   OtherHeaderEnvelopeError)
 import           Ouroboros.Consensus.Ledger.Abstract (LedgerError)
 import           Ouroboros.Consensus.Ledger.Extended (ExtValidationError (..))
-import           Ouroboros.Consensus.Ledger.Inspect (InspectLedger,
-                     LedgerEvent (..))
-import           Ouroboros.Consensus.Ledger.SupportsProtocol
-                     (LedgerSupportsProtocol)
+import           Ouroboros.Consensus.Ledger.Inspect (InspectLedger, LedgerEvent (..))
+import           Ouroboros.Consensus.Ledger.SupportsProtocol (LedgerSupportsProtocol)
 import           Ouroboros.Consensus.Protocol.Abstract (ValidationErr)
 import qualified Ouroboros.Consensus.Protocol.PBFT as PBFT
 import qualified Ouroboros.Consensus.Storage.ChainDB as ChainDB
 import qualified Ouroboros.Consensus.Storage.ImmutableDB as ImmDB
-import           Ouroboros.Consensus.Storage.ImmutableDB.Chunks.Internal
-                     (chunkNoToInt)
+import           Ouroboros.Consensus.Storage.ImmutableDB.Chunks.Internal (chunkNoToInt)
 import qualified Ouroboros.Consensus.Storage.ImmutableDB.Impl.Types as ImmDB
 import qualified Ouroboros.Consensus.Storage.LedgerDB.OnDisk as LedgerDB
-import           Ouroboros.Consensus.Storage.LedgerDB.Types
-                     (UpdateLedgerDbTraceEvent (..))
+import           Ouroboros.Consensus.Storage.LedgerDB.Types (UpdateLedgerDbTraceEvent (..))
 import qualified Ouroboros.Consensus.Storage.LedgerDB.Types as LedgerDB
 import qualified Ouroboros.Consensus.Storage.VolatileDB as VolDB
 import qualified Ouroboros.Consensus.Storage.VolatileDB.Impl as VolDb

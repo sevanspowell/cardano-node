@@ -1,14 +1,14 @@
-{-# LANGUAGE DerivingStrategies         #-}
-{-# LANGUAGE FlexibleContexts           #-}
-{-# LANGUAGE FlexibleInstances          #-}
-{-# LANGUAGE MultiParamTypeClasses      #-}
-{-# LANGUAGE NamedFieldPuns             #-}
-{-# LANGUAGE OverloadedStrings          #-}
-{-# LANGUAGE ScopedTypeVariables        #-}
-{-# LANGUAGE TypeApplications           #-}
-{-# LANGUAGE TypeFamilies               #-}
-{-# LANGUAGE TypeOperators              #-}
-{-# LANGUAGE UndecidableInstances       #-}
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE UndecidableInstances #-}
 
 {-# OPTIONS_GHC -Wno-orphans  #-}
 
@@ -25,38 +25,29 @@ import           Data.SOP.Strict
 import           Cardano.Logging
 
 import           Cardano.Slotting.Slot (EpochSize (..))
-import           Ouroboros.Consensus.Block (BlockProtocol, CannotForge,
-                     ForgeStateInfo, ForgeStateUpdateError)
+import           Ouroboros.Consensus.Block (BlockProtocol, CannotForge, ForgeStateInfo,
+                   ForgeStateUpdateError)
 import           Ouroboros.Consensus.BlockchainTime (getSlotLength)
 import           Ouroboros.Consensus.Cardano.Condense ()
 import           Ouroboros.Consensus.HardFork.Combinator
-import           Ouroboros.Consensus.HardFork.Combinator.AcrossEras
-                     (EraMismatch (..), OneEraCannotForge (..),
-                     OneEraEnvelopeErr (..), OneEraForgeStateInfo (..),
-                     OneEraForgeStateUpdateError (..), OneEraLedgerError (..),
-                     OneEraLedgerUpdate (..), OneEraLedgerWarning (..),
-                     OneEraValidationErr (..), mkEraMismatch)
+import           Ouroboros.Consensus.HardFork.Combinator.AcrossEras (EraMismatch (..),
+                   OneEraCannotForge (..), OneEraEnvelopeErr (..), OneEraForgeStateInfo (..),
+                   OneEraForgeStateUpdateError (..), OneEraLedgerError (..),
+                   OneEraLedgerUpdate (..), OneEraLedgerWarning (..), OneEraValidationErr (..),
+                   mkEraMismatch)
 import           Ouroboros.Consensus.HardFork.Combinator.Condense ()
 -- import           Ouroboros.Consensus.HardFork.History.EraParams (EraParams (..), SafeZone)
 import           Ouroboros.Consensus.HardFork.History
-                     (EraParams (eraEpochSize, eraSafeZone, eraSlotLength))
-import           Ouroboros.Consensus.HardFork.History.EraParams
-                     (EraParams (EraParams))
+                   (EraParams (eraEpochSize, eraSafeZone, eraSlotLength))
+import           Ouroboros.Consensus.HardFork.History.EraParams (EraParams (EraParams))
 import           Ouroboros.Consensus.HeaderValidation (OtherHeaderEnvelopeError)
 import           Ouroboros.Consensus.Ledger.Abstract (LedgerError)
-import           Ouroboros.Consensus.Ledger.Inspect (LedgerUpdate,
-                     LedgerWarning)
+import           Ouroboros.Consensus.Ledger.Inspect (LedgerUpdate, LedgerWarning)
 import           Ouroboros.Consensus.Ledger.SupportsMempool (ApplyTxErr)
 import           Ouroboros.Consensus.Protocol.Abstract (ValidationErr)
 import           Ouroboros.Consensus.TypeFamilyWrappers
 import           Ouroboros.Consensus.Util.Condense (Condense (..))
 
-
---
--- instances for hashes -- TODO ROL : put here
---
--- instance Condense (OneEraHash xs) where
---     condense = condense . Base16.encode . SBS.fromShort . getOneEraHash
 
 --
 -- instances for Header HardForkBlock
@@ -80,16 +71,6 @@ instance All (Compose LogFormatting GenTx) xs => LogFormatting (GenTx (HardForkB
         . hcmap (Proxy @ (LogFormatting `Compose` GenTx)) (K . forMachine dtal)
         . getOneEraGenTx
         . getHardForkGenTx
-
--- instance  All (Compose ToJSON WrapGenTxId) xs => ToJSON (TxId (GenTx (HardForkBlock xs))) where
---     toJSON =
---           hcollapse
---         . hcmap (Proxy @ (ToJSON `Compose` WrapGenTxId)) (K . toJSON)
---         . getOneEraGenTxId
---         . getHardForkGenTxId
---
--- instance ToJSON (TxId (GenTx blk)) => ToJSON (WrapGenTxId blk) where
---     toJSON = toJSON . unwrapGenTxId
 
 
 --
