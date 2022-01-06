@@ -1354,14 +1354,15 @@ data TxBodyContent build era =
 
 instance Eq (TxBodyContent build era) where
   (TxBodyContent aIns aCollateral aOuts aFee aValidityRange aMetadata aAuxScripts aExtraKeyWits aProtocolParams aWithdrawals aCertificates aUpdateProposal aMintValue aScriptValidity) == (TxBodyContent bIns bCollateral bOuts bFee bValidityRange bMetadata bAuxScripts bExtraKeyWits bProtocolParams bWithdrawals bCertificates bUpdateProposal bMintValue bScriptValidity)
-    =    traceOnException "ins" (aIns == bIns)
-      && traceOnException "collateral" (aCollateral == bCollateral)
-      && traceOnException "outs" (aOuts == bOuts)
-      && traceOnException "fee" (aFee == bFee)
-      && traceOnException "validityRange" (aValidityRange == bValidityRange)
-      && traceOnException "metadata" (aMetadata == bMetadata)
-      && traceOnException "auxScripts" (aAuxScripts == bAuxScripts)
-      && traceOnException "extraKeyWits" (aExtraKeyWits == bExtraKeyWits)
+    =
+      traceOnException "ins" (aIns == bIns)
+      -- && traceOnException "collateral" (aCollateral == bCollateral)
+      -- && traceOnException "outs" (aOuts == bOuts)
+      -- && traceOnException "fee" (aFee == bFee)
+      -- && traceOnException "validityRange" (aValidityRange == bValidityRange)
+      -- && traceOnException "metadata" (aMetadata == bMetadata)
+      -- && traceOnException "auxScripts" (aAuxScripts == bAuxScripts)
+      -- && traceOnException "extraKeyWits" (aExtraKeyWits == bExtraKeyWits)
       && traceOnException "protocolParams" (aProtocolParams == bProtocolParams)
       && traceOnException "withdrawals" (aWithdrawals == bWithdrawals)
       && traceOnException "certificates" (aCertificates == bCertificates)
