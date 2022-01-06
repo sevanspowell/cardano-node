@@ -143,6 +143,8 @@ import           Control.Monad (guard)
 import           Data.Aeson (object, withObject, withText, (.:), (.:?), (.=))
 import qualified Data.Aeson as Aeson
 import           Data.Aeson.Types (ToJSONKey (..), toJSONKeyText)
+import Control.Exception
+    ( SomeException, mapException )
 import qualified Data.Aeson.Types as Aeson
 import           Data.Bifunctor (first)
 import           Data.ByteString (ByteString)
@@ -1351,7 +1353,23 @@ data TxBodyContent build era =
      deriving Show
 
 instance Eq (TxBodyContent build era) where
-  _ == _ = False
+  (TxBodyContent aIns aCollateral aOuts aFee aValidityRange aMetadata aAuxScripts aExtraKeyWits aProtocolParams aWithdrawals aCertificates aUpdateProposal aMintValue aScriptValidity) == (TxBodyContent bIns bCollateral bOuts bFee bValidityRange bMetadata bAuxScripts bExtraKeyWits bProtocolParams bWithdrawals bCertificates bUpdateProposal bMintValue bScriptValidity)
+    =    traceOnException "ins" (aIns == bIns)
+      && traceOnException "collateral" (aCollateral == bCollateral)
+      && traceOnException "outs" (aOuts == bOuts)
+      && traceOnException "fee" (aFee == bFee)
+      && traceOnException "validityRange" (aValidityRange == bValidityRange)
+      && traceOnException "metadata" (aMetadata == bMetadata)
+      && traceOnException "auxScripts" (aAuxScripts == bAuxScripts)
+      && traceOnException "extraKeyWits" (aExtraKeyWits == bExtraKeyWits)
+      && traceOnException "protocolParams" (aProtocolParams == bProtocolParams)
+      && traceOnException "withdrawals" (aWithdrawals == bWithdrawals)
+      && traceOnException "certificates" (aCertificates == bCertificates)
+      && traceOnException "updateProposal" (aUpdateProposal == bUpdateProposal)
+      && traceOnException "mintValue" (aMintValue == bMintValue)
+      && traceOnException "scriptValidity" (aScriptValidity == bScriptValidity)
+      where
+        traceOnException n = mapException (\(e :: SomeException) -> userError $ n <> ": " <> show e )
 
 -- ----------------------------------------------------------------------------
 -- Transaction bodies
