@@ -1353,8 +1353,8 @@ data TxBodyContent build era =
      deriving Show
 
 instance Eq (TxBodyContent build era) where
-  (TxBodyContent _aIns _aCollateral _aOuts _aFee _aValidityRange _aMetadata _aAuxScripts _aExtraKeyWits aProtocolParams aWithdrawals aCertificates _aUpdateProposal _aMintValue _aScriptValidity)
-    == (TxBodyContent _bIns _bCollateral _bOuts _bFee _bValidityRange _bMetadata _bAuxScripts _bExtraKeyWits bProtocolParams bWithdrawals bCertificates _bUpdateProposal _bMintValue _bScriptValidity)
+  (TxBodyContent _aIns _aCollateral _aOuts _aFee _aValidityRange _aMetadata _aAuxScripts _aExtraKeyWits aProtocolParams _aWithdrawals _aCertificates _aUpdateProposal _aMintValue _aScriptValidity)
+    == (TxBodyContent _bIns _bCollateral _bOuts _bFee _bValidityRange _bMetadata _bAuxScripts _bExtraKeyWits bProtocolParams _bWithdrawals _bCertificates _bUpdateProposal _bMintValue _bScriptValidity)
     =
       -- traceOnException "ins" (aIns == bIns)
       -- && traceOnException "collateral" (aCollateral == bCollateral)
@@ -1365,8 +1365,8 @@ instance Eq (TxBodyContent build era) where
       -- && traceOnException "auxScripts" (aAuxScripts == bAuxScripts)
       -- && traceOnException "extraKeyWits" (aExtraKeyWits == bExtraKeyWits)
       traceOnException "protocolParams" (aProtocolParams == bProtocolParams)
-      && traceOnException "withdrawals" (aWithdrawals == bWithdrawals)
-      && traceOnException "certificates" (aCertificates == bCertificates)
+      -- && traceOnException "withdrawals" (aWithdrawals == bWithdrawals)
+      -- && traceOnException "certificates" (aCertificates == bCertificates)
       -- && traceOnException "updateProposal" (aUpdateProposal == bUpdateProposal)
       -- && traceOnException "mintValue" (aMintValue == bMintValue)
       -- && traceOnException "scriptValidity" (aScriptValidity == bScriptValidity)
