@@ -1348,8 +1348,10 @@ data TxBodyContent build era =
        txMintValue      :: TxMintValue    build era,
        txScriptValidity :: TxScriptValidity era
      }
-     deriving (Eq, Show)
+     deriving Show
 
+instance Eq (TxBodyContent build era) where
+  _ == _ = False
 
 -- ----------------------------------------------------------------------------
 -- Transaction bodies
