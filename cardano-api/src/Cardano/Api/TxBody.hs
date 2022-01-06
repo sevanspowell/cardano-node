@@ -1353,9 +1353,10 @@ data TxBodyContent build era =
      deriving Show
 
 instance Eq (TxBodyContent build era) where
-  (TxBodyContent aIns aCollateral aOuts aFee aValidityRange aMetadata aAuxScripts aExtraKeyWits aProtocolParams aWithdrawals aCertificates aUpdateProposal aMintValue aScriptValidity) == (TxBodyContent bIns bCollateral bOuts bFee bValidityRange bMetadata bAuxScripts bExtraKeyWits bProtocolParams bWithdrawals bCertificates bUpdateProposal bMintValue bScriptValidity)
+  (TxBodyContent _aIns _aCollateral _aOuts _aFee _aValidityRange _aMetadata _aAuxScripts _aExtraKeyWits aProtocolParams aWithdrawals aCertificates _aUpdateProposal _aMintValue _aScriptValidity)
+    == (TxBodyContent _bIns _bCollateral _bOuts _bFee _bValidityRange _bMetadata _bAuxScripts _bExtraKeyWits bProtocolParams bWithdrawals bCertificates _bUpdateProposal _bMintValue _bScriptValidity)
     =
-      traceOnException "ins" (aIns == bIns)
+      -- traceOnException "ins" (aIns == bIns)
       -- && traceOnException "collateral" (aCollateral == bCollateral)
       -- && traceOnException "outs" (aOuts == bOuts)
       -- && traceOnException "fee" (aFee == bFee)
@@ -1363,12 +1364,12 @@ instance Eq (TxBodyContent build era) where
       -- && traceOnException "metadata" (aMetadata == bMetadata)
       -- && traceOnException "auxScripts" (aAuxScripts == bAuxScripts)
       -- && traceOnException "extraKeyWits" (aExtraKeyWits == bExtraKeyWits)
-      && traceOnException "protocolParams" (aProtocolParams == bProtocolParams)
+      traceOnException "protocolParams" (aProtocolParams == bProtocolParams)
       && traceOnException "withdrawals" (aWithdrawals == bWithdrawals)
       && traceOnException "certificates" (aCertificates == bCertificates)
-      && traceOnException "updateProposal" (aUpdateProposal == bUpdateProposal)
-      && traceOnException "mintValue" (aMintValue == bMintValue)
-      && traceOnException "scriptValidity" (aScriptValidity == bScriptValidity)
+      -- && traceOnException "updateProposal" (aUpdateProposal == bUpdateProposal)
+      -- && traceOnException "mintValue" (aMintValue == bMintValue)
+      -- && traceOnException "scriptValidity" (aScriptValidity == bScriptValidity)
       where
         traceOnException n = mapException (\(e :: SomeException) -> userError $ n <> ": " <> show e )
 
