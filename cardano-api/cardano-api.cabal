@@ -121,7 +121,6 @@ library
                       , formatting
                       , iproute
                       , memory
-                      , network
                       , nothunks
                       , ouroboros-consensus
                       , ouroboros-consensus-byron
